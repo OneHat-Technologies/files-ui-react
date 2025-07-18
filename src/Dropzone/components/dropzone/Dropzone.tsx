@@ -70,6 +70,9 @@ import { isThereValidUrl } from "../../../utils/url.utils";
 
 //import { print_manager } from "../../../../../utils";
 
+// SKOTE MOD: Global variable to hold the upload function
+let DropzoneUploadFiles: (() => Promise<void>) | null = null;
+
 /**
  *
  * Demos:
@@ -198,7 +201,7 @@ const Dropzone: React.FC<DropzoneProps> = (props: DropzoneProps) => {
   const fuiRippleRefAbs = React.useRef<HTMLDivElement>(null);
   const fuiRippleRefRel = React.useRef<HTMLDivElement>(null);
   //ref to the hidden input tag
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const inputRef = React.useRef<HTMLInputElement>(null!);
   //state for drag operation
   const [isDragging, setIsDragging] = React.useState<boolean>(false);
   //state for checking upload start
@@ -508,6 +511,12 @@ const Dropzone: React.FC<DropzoneProps> = (props: DropzoneProps) => {
       setIsUploading(false);
     }, 2000);
   };
+
+  // BEGIN SKOTE MOD: Assign the upload function to the global variable
+  React.useEffect(() => {
+    DropzoneUploadFiles = () => uploadfiles(localFiles);
+  }, [localFiles]);
+  // END SKOTE MOD
 
   const handleAbortUpload = () => {
     const listExtFileLocal: ExtFileInstance[] | undefined =
@@ -943,3 +952,4 @@ const Dropzone: React.FC<DropzoneProps> = (props: DropzoneProps) => {
   );
 };
 export default Dropzone;
+export { DropzoneUploadFiles }; // SKOTE MOD
