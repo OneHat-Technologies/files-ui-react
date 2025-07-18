@@ -9,7 +9,7 @@
 /coverage
 
 # production
-/build
+# /build  # SKOTE MOD: Allow build directory for npm installation
 
 # misc
 .DS_Store
